@@ -167,6 +167,25 @@ class Section2:
             ytest_r = ytest[0:ntest]
             scores2b1c = u.train_simple_classifier_with_cv(Xtrain= x_r, ytrain= y_r, clf=DecisionTreeClassifier(random_state=42), cv=KFold(n_splits=5, shuffle = True, random_state=42))
             scores2b1d = u.train_simple_classifier_with_cv(Xtrain=x_r, ytrain=y_r, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
+
+            clf_partF = LogisticRegression(max_iter=300, random_state=42)
+            cv_partF = ShuffleSplit(n_splits=5, random_state=52)
+            clf_partF.fit(x_r, y_r)
+            y_prediction_train_F = clf_partF.predict(x_r)
+            y_prediction_test_F = clf_partF.predict(Xtest_r)
+
+            #scores for trianing and testing
+            scores_train_F = accuracy_score(y_r, y_prediction_train_F)
+            scores_test_F = accuracy_score(ytest_r, y_prediction_test_F)
+
+            # mean cross-validation accuracy
+            cross_val_scores_F = cross_val_score(clf_partF, x_r, y_r, cv=cv_partF)
+            mean_cv_accuracy_F = cross_val_scores_F.mean()
+
+            # confusion matrices for training and testing sets
+            conf_mat_train = confusion_matrix(y_r, y_prediction_train_F)
+            conf_mat_test = confusion_matrix(ytest_r, y_prediction_test_F)
+
             scores2b1f = u.train_simple_classifier_with_cv(Xtrain=x_r, ytrain=y_r, clf=LogisticRegression(max_iter=300, random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
             print(scores2b1c) 
             print(scores2b1d)
@@ -181,10 +200,12 @@ class Section2:
             std_fit_time_1d = np.std(scores2b1d['fit_time'])
             mean_accuracy_1d = np.mean(scores2b1d['test_score'])
             std_accuracy_1d = np.std(scores2b1d['test_score'])
+            """
             mean_fit_time_1f = np.mean(scores2b1f['fit_time'])
             std_fit_time_1f = np.std(scores2b1f['fit_time'])
             mean_accuracy_1f = np.mean(scores2b1f['test_score'])
             std_accuracy_1f = np.std(scores2b1f['test_score'])
+            """
 
             unique_classes, class_count_train = np.unique(y_r, return_counts=True)
             class_count_train_list = class_count_train.tolist()
@@ -193,22 +214,25 @@ class Section2:
 
             answer[ntrain] = {
                 "partC" : {
-                    "clf" : DecisionTreeClassifier(random_state=42), 
-                    "cv" : KFold(n_splits=5, shuffle = True, random_state=42), 
                     "scores" : {"mean_fit_time" : mean_fit_time_1c, "std_fit_time" : std_fit_time_1c, "mean_accuracy" : mean_accuracy_1c, "std_accuracy" : std_accuracy_1c
-                                }
+                                },
+                    "clf" : DecisionTreeClassifier(random_state=42), 
+                    "cv" : KFold(n_splits=5, shuffle = True, random_state=42) 
                             },
                 "partD" : {
-                    "clf" : DecisionTreeClassifier(random_state=42), 
-                    "cv" : ShuffleSplit(n_splits=5, random_state=42), 
                     "scores" : {"mean_fit_time" : mean_fit_time_1d, "std_fit_time" : std_fit_time_1d, "mean_accuracy" : mean_accuracy_1d, "std_accuracy" : std_accuracy_1d
-                                }
+                                },
+                    "clf" : DecisionTreeClassifier(random_state=42), 
+                    "cv" : ShuffleSplit(n_splits=5, random_state=42)             
                 },
                 "partF" : {
-                    "clf" : LogisticRegression(max_iter=300, random_state=42), 
-                    "cv" : ShuffleSplit(n_splits=5, random_state=42), 
-                    "scores" : {"mean_fit_time" : mean_fit_time_1f, "std_fit_time" : std_fit_time_1f, "mean_accuracy" : mean_accuracy_1f, "std_accuracy" : std_accuracy_1f
-                                }
+                    "scores_train_F" : scores_train_F, 
+                    "scores_test_F" : scores_test_F, 
+                    "mean_cv_accuracy_F" : mean_cv_accuracy_F,
+                    "clf" : clf_partF,
+                    "cv" : cv_partF,
+                    "conf_mat_train" : conf_mat_train,
+                    "conf_mat_test" : conf_mat_test
                 },
                 "ntrain" : ntrain,
                 "ntest" : ntest,
