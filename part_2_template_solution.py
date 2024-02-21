@@ -9,11 +9,13 @@ import new_utils as nu
 from sklearn.model_selection import (
     ShuffleSplit,
     cross_validate,
-    KFold,
+    cross_val_score,
+    KFold
 )
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score
 
 # ======================================================================
 
