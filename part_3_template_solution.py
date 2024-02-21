@@ -59,7 +59,7 @@ class Section3:
 
         return {
             "class_counts": cc,  # Replace with actual class counts
-            "num_classes": uniq,  # Replace with the actual number of classes
+            "num_classes": len(uniq),  # Replace with the actual number of classes
         }
 
     # --------------------------------------------------------------------------
