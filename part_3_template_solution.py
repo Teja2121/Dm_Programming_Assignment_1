@@ -88,44 +88,34 @@ class Section3:
 
         answer = {}
 
-        Xtrain_3a1, ytrain_3a1, Xtest_3a1, ytest_3a1 = nu.prepare_custom_data(10000, 2000)
+        print("Part 3(A) - \n")
+        Xtrain, ytrain, Xtest, ytest = u.prepare_data()
 
         # Initialize the ShuffleSplit cross-validator
-        shuffle_split = ShuffleSplit(n_splits=5, random_state=42)
+        #shuffle_split = ShuffleSplit(n_splits=5, random_state=42)
 
         # Initialize and train the classifier
-        clf = LogisticRegression(max_iter=300, random_state=42)
-        
+        clf_log = LogisticRegression(max_iter=300, random_state=42)
+        clf_log.fit(Xtrain,ytrain)
+
         k_values = [1, 2, 3, 4, 5]
         train_scores = []
         test_scores = []
 
         # Calculate top-k accuracy for each k
         for k in k_values:
-            train_acc = []
-            test_acc = []
-            for train_index, test_index in shuffle_split.split(Xtrain_3a1):
-                    X_train_split, X_test_split = Xtrain_3a1[train_index], Xtrain_3a1[test_index]
-                    y_train_split, y_test_split = ytrain_3a1[train_index], ytrain_3a1[test_index]
+            # Calculate top-k accuracy scores for the current k
+            score_train_k = top_k_accuracy_score(ytrain, clf_log.predict_proba(Xtrain), k=k)  # Use a different variable name
+            score_test_k = top_k_accuracy_score(ytest, clf_log.predict_proba(Xtest), k=k)    # Use a different variable name
 
-                    # Train the classifier
-                    clf.fit(X_train_split, y_train_split)
+            # Append the (k, score) tuples to the lists
+            train_scores.append((k, score_train_k))
+            test_scores.append((k, score_test_k))
 
-                    # Predict probability scores for training and testing sets
-                    prob_train = clf.predict_proba(X_train_split)
-                    prob_test = clf.predict_proba(X_test_split)
-        
-                    # Calculate top-k accuracy for the split
-                    score_train_split = top_k_accuracy_score(y_train_split, prob_train, k=k)
-                    score_test_split = top_k_accuracy_score(y_test_split, prob_test, k=k)
-        
-                    train_acc.append(score_train_split)
-                    test_acc.append(score_test_split)
+            # Store the scores in the answer dictionary for each k
+            answer[k] = {"score_train": score_train_k, "score_test": score_test_k}
 
-            # Average the scores over all splits
-            train_scores.append(np.mean(train_acc))
-            test_scores.append(np.mean(test_acc))   
-
+        """
         # Plotting
         plt.plot(k_values, train_scores, label='Training Data')
         plt.plot(k_values, test_scores, label='Testing Data')
@@ -134,23 +124,19 @@ class Section3:
         plt.title('Top-k Accuracy Scores for Training and Testing Sets')
         plt.legend()
         plt.show()
+        """
 
-        print("Training scores:", train_scores)
-        print("Testing scores:", test_scores)
+        #print("Training scores:", train_scores)
+        #print("Testing scores:", test_scores)
 
         
-        answer["1"] = {"score_train" : 0.9723555555555556, "score_test" : 0.9036}
-        answer["2"] = {"score_train" : 0.9926222222222222, "score_test" : 0.9574}
-        answer["3"] = {"score_train" : 0.9972888888888889, "score_test" : 0.9758000000000001}
-        answer["4"] = {"score_train" : 0.9988666666666667, "score_test" : 0.9870000000000001}
-        answer["5"] = {"score_train" : 0.9997111111111112, "score_test" : 0.9937999999999999}
         answer["clf"] = LogisticRegression(max_iter=300, random_state=42)
-        answer["plot_k_vs_score_train"] = plt.plot(k_values, train_scores, label='Training Data'), [(1, 0.9723555555555556), (2, 0.9926222222222222), (3, 0.9972888888888889), (4, 0.9988666666666667), (5, 0.9997111111111112)]
-        answer["plot_k_vs_score_test"] = plt.plot(k_values, test_scores, label='Testing Data'), [(1, 0.9036), (2, 0.9574), (3, 0.9758000000000001), (4, 0.9870000000000001), (5, 0.9937999999999999)]
+        answer["plot_k_vs_score_train"] = list(zip(k_values ,train_scores))
+        answer["plot_k_vs_score_test"] = list(zip(k_values, test_scores))
         answer["text_rate_accuracy_change"] = "The rate of accuracy for testing data, increased with increase in the value of k"
         answer["text_is_topk_useful_and_why"] = "Yes, topk is useful because it measures the accuracy of a classifier's predictions when considering the top k predicted classes instead of just the most probable one."
-        
 
+        print(answer)
         """
         # `answer` is a dictionary with the following keys:
         - integers for each topk (1,2,3,4,5)
