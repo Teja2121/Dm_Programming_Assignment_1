@@ -284,6 +284,8 @@ class Section3:
             if(key=='test_recall'):
                 score_values_svc1['mean_recall'] = array.mean()
                 score_values_svc1['std_recall'] = array.std()
+
+        pres_high_recall = score_values_svc1["mean_precision"] > score_values_svc1["mean_recall"]
         
         #print(score_values_svc1)
 
@@ -307,7 +309,7 @@ class Section3:
         answer["scores"] = score_values_svc1
         answer["cv"] = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
         answer["clf"] = SVC(random_state=42)
-        answer["is_precision_higher_than_recall"] = True
+        answer["is_precision_higher_than_recall"] = pres_high_recall
         answer["explain_is_precision_higher_than_recall"] = "Precision is higher than recall because of model's performance in correctly predicting positive instances out of all predicted positives (precision), compared to its ability to identify all actual positives (recall). This can happen in imbalanced datasets where the cost of false positives is minimized more effectively than the cost of false negatives."
         answer["confusion_matrix_train"] = confusion_matrix(ytrain, y_pred_svc_train)
         answer["confusion_matrix_train"] = confusion_matrix(ytest, y_pred_svc_test)
@@ -334,7 +336,7 @@ class Section3:
         """
 
         return answer
-
+        
     # --------------------------------------------------------------------------
     """
     D. Repeat the same steps as part 3.C but apply a weighted loss function (see the class_weights parameter).  Print out the class weights, and comment on the performance difference. Use the `compute_class_weight` argument of the estimator to compute the class weights. 
