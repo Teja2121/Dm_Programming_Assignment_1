@@ -87,7 +87,7 @@ class Section1:
     def partB(
         self,
     ):
-        print("Part B - \n")
+        print("Part 1(B) - \n")
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
