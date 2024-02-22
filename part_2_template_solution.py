@@ -125,9 +125,6 @@ class Section2:
         # return values:
         # Xtrain, ytrain, Xtest, ytest: the data used to fill the `answer`` dictionary
 
-        Xtrain = Xtest = np.zeros([1, 1], dtype="float")
-        ytrain = ytest = np.zeros([1], dtype="int")
-
         return answer, Xtrain, ytrain, Xtest, ytest
 
     """
@@ -160,7 +157,7 @@ class Section2:
         answer = {}
         print("2(B) - \n")
 
-        X, y, Xtest, ytest = u.prepare_data()
+       # X,y,Xtest,ytest = u.prepare_data()
 
         for ntrain, ntest in zip(ntrain_list, ntest_list):
             x_r = X[0:ntrain, :]
