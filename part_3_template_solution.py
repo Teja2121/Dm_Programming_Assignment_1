@@ -232,9 +232,73 @@ class Section3:
         ytest: NDArray[np.int32],
     ) -> dict[str, Any]:
         """"""
+        # Part 3(c)
+        print("Part 3(C) - \n")
+
+        #X, y, Xtest, ytest = u.prepare_data()
+        Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
+        Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
+
+        def stratified_kfold():
+            return StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        
+        # Define a function to train a classifier with cross-validation
+        def train_classifier_with_cv(Xtrain, ytrain, clf):
+        # Define scoring metrics
+            scoring = {'accuracy': 'accuracy', 'f1_score': make_scorer(f1_score, average='macro'), 'precision': make_scorer(precision_score, average='macro'),'recall': make_scorer(recall_score, average='macro')}
+        # Perform cross-validation
+            scores = cross_validate(clf, Xtrain, ytrain, cv=stratified_kfold(), scoring=scoring)
+        # Print the mean and std of scores
+            u.print_cv_result_dict(scores)
+            return scores
+
+        # Train SVC with cross-validation
+        clf_svc = SVC(random_state=42)
+        scores_svc = train_classifier_with_cv(Xtrain, ytrain, clf_svc)
+
+        score_values_svc1={}
+        for key,array in scores_svc.items():
+            if(key=='test_accuracy'):
+                score_values_svc1['mean_accuracy'] = array.mean()
+                score_values_svc1['std_accuracy'] = array.std()
+            if(key=='test_f1_score'):
+                score_values_svc1['mean_f1'] = array.mean()
+                score_values_svc1['std_f1'] = array.std()
+            if(key=='test_precision'):
+                score_values_svc1['mean_precision'] = array.mean()
+                score_values_svc1['std_precision'] = array.std()
+            if(key=='test_recall'):
+                score_values_svc1['mean_recall'] = array.mean()
+                score_values_svc1['std_recall'] = array.std()
+
+        pres_high_recall = score_values_svc1["mean_precision"] > score_values_svc1["mean_recall"]
+        
+        #print(score_values_svc1)
+
+        # Train the classifier on all training data
+        clf_svc.fit(Xtrain, ytrain)
+
+        # Plot confusion matrix for the test data
+        y_pred_svc_train = clf_svc.predict(Xtrain)
+        y_pred_svc_test = clf_svc.predict(Xtest)
+        cm_svc_train = confusion_matrix(ytrain, y_pred_svc_train)
+        cm_svc_test = confusion_matrix(ytest, y_pred_svc_test)
+        print("Confusion matrix for training data: \n")
+        print(cm_svc_train)
+        print("Confusion matrix for testing data:")
+        print(cm_svc_test)
+
+        
 
         # Enter your code and fill the `answer` dictionary
         answer = {}
+        answer["scores"] = score_values_svc1
+        answer["cv"] = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        answer["clf"] = SVC(random_state=42)
+        answer["is_precision_higher_than_recall"] = pres_high_recall
+        answer["explain_is_precision_higher_than_recall"] = "Precision is higher than recall because of model's performance in correctly predicting positive instances out of all predicted positives (precision), compared to its ability to identify all actual positives (recall). This can happen in imbalanced datasets where the cost of false positives is minimized more effectively than the cost of false negatives."
+        answer["confusion_matrix_train"] = confusion_matrix(ytrain, y_pred_svc_train)
+        answer["confusion_matrix_train"] = confusion_matrix(ytest, y_pred_svc_test)
 
         """
         Answer is a dictionary with the following keys: 
