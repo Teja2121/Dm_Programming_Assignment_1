@@ -87,22 +87,36 @@ class Section1:
     def partB(
         self,
     ):
+        print("Part 1(B) - \n")
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
-        Xtrain = nu.scale_data(Xtrain)
-        Xtest = nu.scale_data(Xtest)
-
+        Xtrain_test = nu.scale_data(Xtrain)
+        Xtest_test = nu.scale_data(Xtest)
+        # Checking that the labels are integers
+        ytrain_test = nu.scale_data_1(ytrain)
+        ytest_test = nu.scale_data_1(ytest)
+        print("1(B) - Are elements in Xtrain a floating point number and scaled between 0 to 1: " +str(Xtrain_test))
+        print("1(B) - Are elements in a floating point number and scaled between 0 to 1: " +str(Xtest_test))
+        print("1(B) - Are elements in ytrian an integer: " +str(ytrain_test))
+        print("1(B) - Are elements in ytest an integer: " +str(ytest_test))
         answer = {}
 
         # Enter your code and fill the `answer` dictionary
-
-        answer["length_Xtrain"] = None  # Number of samples
-        answer["length_Xtest"] = None
-        answer["length_ytrain"] = None
-        answer["length_ytest"] = None
-        answer["max_Xtrain"] = None
-        answer["max_Xtest"] = None
+        length_Xtrain = len(Xtrain)
+        length_Xtest = len(Xtest)
+        length_ytrain = len(ytrain)
+        length_ytest = len(ytest)
+        max_Xtrain = Xtrain.max()
+        max_Xtest = Xtest.max()
+        print(f"1(B) - Length of Xtrain, Xtest, ytrain, ytest is: {length_Xtrain}, {length_Xtest}, {length_ytrain}, {length_ytest}")
+        print(f"1(B) - Max value of Xtrain and Xtest is: {max_Xtrain}, {max_Xtest}")
+        answer["length_Xtrain"] = length_Xtrain  # Number of samples
+        answer["length_Xtest"] = length_Xtest
+        answer["length_ytrain"] = length_ytrain
+        answer["length_ytest"] = length_ytest
+        answer["max_Xtrain"] = max_Xtrain
+        answer["max_Xtest"] = max_Xtest
         return answer, Xtrain, ytrain, Xtest, ytest
 
     """
