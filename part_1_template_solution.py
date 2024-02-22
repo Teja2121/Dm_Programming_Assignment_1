@@ -195,11 +195,60 @@ class Section1:
         # Answer: built on the structure of partC
         # `answer` is a dictionary with keys set to each split, in this case: 2, 5, 8, 16
         # Therefore, `answer[k]` is a dictionary with keys: 'scores', 'cv', 'clf`
-
+        print("Part 1(E)- \n" )
+        #X, y, Xtest, ytest = u.prepare_data()
+        Xtrain, ytrain = X, y
+        #Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
+        print("For K=2 - \n")
+        scoresk2 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=2, random_state=42))
+        scores_k2 = nu.print_cv_result_dict_test(scoresk2)
+        print(scores_k2)
+        answer = {}
+        print("For K = 5 - \n")
+        scoresk5 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
+        scores_k5 = nu.print_cv_result_dict_test(scoresk5)
+        print(scores_k5)
+        print("For K = 8 - \n")
+        scoresk8 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=8, random_state=42))
+        scores_k8 = nu.print_cv_result_dict_test(scoresk8)
+        print(scores_k8)
+        print("For K = 16 - \n")
+        scoresk16 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=16, random_state=42))
+        scores_k16 = nu.print_cv_result_dict_test(scoresk16)
+        print(scores_k16)
         answer = {}
 
-        # Enter your code, construct the `answer` dictionary, and return it.
+        score_valuesk2={}
+        for key,array in scoresk2.items():
+            if(key=='test_score'):
+                score_valuesk2['mean_accuracy'] = array.mean()
+                score_valuesk2['std_accuracy'] = array.std()
+        
+        score_valuesk5={}
+        for key,array in scoresk5.items():
+            if(key=='test_score'):
+                score_valuesk5['mean_accuracy'] = array.mean()
+                score_valuesk5['std_accuracy'] = array.std()
 
+        score_valuesk8={}
+        for key,array in scoresk8.items():
+            if(key=='test_score'):
+                score_valuesk8['mean_accuracy'] = array.mean()
+                score_valuesk8['std_accuracy'] = array.std()
+
+        score_valuesk16={}
+        for key,array in scoresk16.items():
+            if(key=='test_score'):
+                score_valuesk16['mean_accuracy'] = array.mean()
+                score_valuesk16['std_accuracy'] = array.std()
+
+        answer["2"] =  {'scores' : score_valuesk2, 'cv': ShuffleSplit(n_splits=2, random_state=42), 'clf': DecisionTreeClassifier(random_state=42)}
+        answer["5"] =  {'scores' :  score_valuesk5, 'cv': ShuffleSplit(n_splits=5, random_state=42), 'clf': DecisionTreeClassifier(random_state=42)}
+        answer["8"] = {'scores': score_valuesk8, 'cv' : ShuffleSplit(n_splits=8, random_state=42), 'clf': DecisionTreeClassifier(random_state=42)}
+        answer["16"] = {'scores': score_valuesk16, 'cv' : ShuffleSplit(n_splits=16, random_state=42), 'clf': DecisionTreeClassifier(random_state=42)}
+
+        # Enter your code, construct the `answer` dictionary, and return it.
+        # Noticing Difference: The mean tends to be the same while the standard deviation does tend to deviate.
         return answer
 
     # ----------------------------------------------------------------------
