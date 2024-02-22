@@ -117,15 +117,33 @@ class Section1:
         self,
         X: NDArray[np.floating],
         y: NDArray[np.int32],
-    ):
+    ):  
+        #X, y, Xtest, ytest = u.prepare_data()
+        
+        Xtrain, ytrain = X,y
+        print(Xtrain)
+        print(ytrain)
+        #Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         # Enter your code and fill the `answer` dictionary
-
+        scores1 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=KFold(n_splits=5, shuffle = True, random_state=42))
+        scores_1 = u.print_cv_result_dict(scores1)
         answer = {}
-        answer["clf"] = None  # the estimator (classifier instance)
-        answer["cv"] = None  # the cross validator instance
+        answer["clf"] = DecisionTreeClassifier(random_state=42)  # the estimator (classifier instance)
+        answer["cv"] = KFold(n_splits=5, shuffle=True, random_state=42)  # the cross validator instance
         # the dictionary with the scores  (a dictionary with
         # keys: 'mean_fit_time', 'std_fit_time', 'mean_accuracy', 'std_accuracy'.
-        answer["scores"] = None
+
+        score_values={}
+        for key,array in scores1.items():
+            if(key=='fit_time'):
+                score_values['mean_fit_time'] = array.mean()
+                score_values['std_fit_time'] = array.std()
+            if(key=='test_score'):
+                score_values['mean_accuracy'] = array.mean()
+                score_values['std_accuracy'] = array.std()
+
+
+        answer["scores"] = score_values
         return answer
 
     # ---------------------------------------------------------
