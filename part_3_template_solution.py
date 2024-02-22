@@ -181,7 +181,6 @@ class Section3:
         # Enter your code and fill the `answer` dictionary
         answer = {}
         print("Part 3(B) - \n")
-        # X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
         Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
         Xtrain_test = nu.scale_data(Xtrain)
