@@ -180,6 +180,35 @@ class Section3:
         """"""
         # Enter your code and fill the `answer` dictionary
         answer = {}
+        print("Part 3(B) - \n")
+        # X, y, Xtest, ytest = u.prepare_data()
+        Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
+        Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
+        Xtrain_test = nu.scale_data(Xtrain)
+        Xtest_test = nu.scale_data(Xtest)
+        # Checking that the labels are integers
+        ytrain_test = nu.scale_data_1(ytrain)
+        ytest_test = nu.scale_data_1(ytest)
+        print("3(B) - Are elements in Xtrain a floating point number and scaled between 0 to 1: " +str(Xtrain_test))
+        print("3(B) - Are elements in a floating point number and scaled between 0 to 1: " +str(Xtest_test))
+        print("3(B) - Are elements in ytrian an integer: " +str(ytrain_test))
+        print("3(B) - Are elements in ytest an integer: " +str(ytest_test))
+        answer = {}
+
+        length_Xtrain1 = len(Xtrain)
+        length_Xtest1 = len(Xtest)
+        length_ytrain1 = len(ytrain)
+        length_ytest1 = len(ytest)
+        max_Xtrain1 = Xtrain.max()
+        max_Xtest1 = Xtest.max()
+        print(f"3(B) - Length of Xtrain, Xtest, ytrain, ytest is: {length_Xtrain1}, {length_Xtest1}, {length_ytrain1}, {length_ytest1}")
+        print(f"3(B) - Max value of Xtrain and Xtest is: {max_Xtrain1}, {max_Xtest1}")
+        answer["length_Xtrain"] = length_Xtrain1  # Number of samples
+        answer["length_Xtest"] = length_Xtest1
+        answer["length_ytrain"] = length_ytrain1
+        answer["length_ytest"] = length_ytest1
+        answer["max_Xtrain"] = max_Xtrain1
+        answer["max_Xtest"] = max_Xtest1
 
         # Answer is a dictionary with the same keys as part 1.B
 
