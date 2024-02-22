@@ -118,15 +118,14 @@ class Section1:
         X: NDArray[np.floating],
         y: NDArray[np.int32],
     ):  
+        print("Part 1(C)- \n" )
         #X, y, Xtest, ytest = u.prepare_data()
-        
-        Xtrain, ytrain = X,y
-        print(Xtrain)
-        print(ytrain)
+        Xtrain, ytrain = X, y
         #Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         # Enter your code and fill the `answer` dictionary
         scores1 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=KFold(n_splits=5, shuffle = True, random_state=42))
         scores_1 = u.print_cv_result_dict(scores1)
+        print(scores_1)
         answer = {}
         answer["clf"] = DecisionTreeClassifier(random_state=42)  # the estimator (classifier instance)
         answer["cv"] = KFold(n_splits=5, shuffle=True, random_state=42)  # the cross validator instance
@@ -145,7 +144,6 @@ class Section1:
 
         answer["scores"] = score_values
         return answer
-
     # ---------------------------------------------------------
     """
     D. Repeat Part C with a random permutation (Shuffle-Split) 𝑘-fold cross-validator.
