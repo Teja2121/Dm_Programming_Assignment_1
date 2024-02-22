@@ -69,6 +69,7 @@ class Section1:
     def partA(self):
         # Return 0 (ran ok) or -1 (did not run ok)
         answer = u.starter_code()
+        print("Part 1(A) - 0 means ran ok and -1 means did not run ok: " +str(answer))
         return answer
 
     # ----------------------------------------------------------------------
