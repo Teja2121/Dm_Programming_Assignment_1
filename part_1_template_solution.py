@@ -124,7 +124,7 @@ class Section1:
         X: NDArray[np.floating],
         y: NDArray[np.int32],
     ):  
-        X, y, Xtest, ytest = u.prepare_data()
+        #X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         # Enter your code and fill the `answer` dictionary
@@ -161,7 +161,7 @@ class Section1:
         y: NDArray[np.int32],
     ):
         # Enter your code and fill the `answer` dictionary
-        X, y, Xtest, ytest = u.prepare_data()
+        #X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         scores2 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
@@ -199,7 +199,7 @@ class Section1:
         # Answer: built on the structure of partC
         # `answer` is a dictionary with keys set to each split, in this case: 2, 5, 8, 16
         # Therefore, `answer[k]` is a dictionary with keys: 'scores', 'cv', 'clf`
-        X, y, Xtest, ytest = u.prepare_data()
+        #X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         scoresk2 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=2, random_state=42))
@@ -275,7 +275,7 @@ class Section1:
 
         # Enter your code, construct the `answer` dictionary, and return it.
 
-        X, y, Xtest, ytest = u.prepare_data()
+        #X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         scoresrf1 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=RandomForestClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
@@ -379,7 +379,7 @@ class Section1:
          5) max_features 
          5) n_estimators
         """
-        X, y, Xtest, ytest = u.prepare_data()
+        #X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
 
