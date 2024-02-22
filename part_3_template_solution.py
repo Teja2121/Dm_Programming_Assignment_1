@@ -214,6 +214,7 @@ class Section3:
 
         return answer, X, y, Xtest, ytest
 
+
     # --------------------------------------------------------------------------
     """
     C. Repeat part 1.C for this dataset but use a support vector machine (SVC in sklearn). 
@@ -343,7 +344,7 @@ class Section3:
         #X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
         Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
-        
+
         def stratified_kfold():
             return StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
         
