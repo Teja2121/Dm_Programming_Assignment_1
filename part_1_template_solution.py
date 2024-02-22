@@ -159,6 +159,7 @@ class Section1:
 
         answer["scores"] = score_values
         return answer
+
     # ---------------------------------------------------------
     """
     D. Repeat Part C with a random permutation (Shuffle-Split) 𝑘-fold cross-validator.
@@ -195,6 +196,7 @@ class Section1:
         answer["scores"] = score_values2
         answer["explain_kfold_vs_shuffle_split"] = 'Shuffle-Split randomly shuffles the data and splits it into train and test sets. But shuffle split might have higher variance comapred to k-fold. 𝑘-fold cross-validation provides a more reliable estimate of model performance by averaging over multiple iterations of training and testing on different subsets of the data. 𝑘-fold cross-validation can be computationally expensive, especially when 𝑘 is large'
         return answer
+
     # ----------------------------------------------------------------------
     """
     E. Repeat part D for 𝑘=2,5,8,16, but do not print the training time. 
@@ -342,7 +344,6 @@ class Section1:
         """
 
         return answer
-
     # ----------------------------------------------------------------------
     """
     G. For the Random Forest classifier trained in part F, manually (or systematically, 
