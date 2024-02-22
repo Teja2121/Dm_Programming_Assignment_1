@@ -274,7 +274,77 @@ class Section3:
         """"""
         # Enter your code and fill the `answer` dictionary
         answer = {}
+        print("Part 3(D) - \n")
 
+        #X, y, Xtest, ytest = u.prepare_data()
+        Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
+        Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
+        
+        def stratified_kfold():
+            return StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        
+        
+        def train_classifier_with_weighted_cv(Xtrain, ytrain, clf):
+         # Compute class weights
+            class_weights = compute_class_weight('balanced', classes=np.unique(ytrain), y=ytrain)
+            class_weight_dict = dict(enumerate(class_weights))
+            #print("Class weights:", class_weight_dict)
+            scoring_1 = {'accuracy': 'accuracy', 'f1_score': make_scorer(f1_score, average='macro'),'precision': make_scorer(precision_score, average='macro'),'recall': make_scorer(recall_score, average='macro')}
+            #cross-validation
+            scores = cross_validate(clf, Xtrain, ytrain, cv=stratified_kfold(), scoring=scoring_1, fit_params={'sample_weight': [class_weight_dict[y] for y in ytrain]})
+            # Print the mean and std of scores
+            u.print_cv_result_dict(scores)
+            return scores, class_weight_dict
+    
+        # Train SVC with cross-validation using weighted loss function
+        clf_svc_weighted = SVC(random_state=42)
+        scores_svc_weighted, class_weight_dict_outside = train_classifier_with_weighted_cv(Xtrain, ytrain, clf_svc_weighted)
+
+        
+        print("The weights are: \n")
+        print(class_weight_dict_outside)
+        
+
+        # Train the classifier on all training data
+        clf_svc_weighted.fit(Xtrain, ytrain)
+
+        # Plot confusion matrix for the test data
+        y_pred_svc_train1 = clf_svc_weighted.predict(Xtrain)
+        y_pred_svc_test1 = clf_svc_weighted.predict(Xtest)
+        cm_svc_train1 = confusion_matrix(ytrain, y_pred_svc_train1)
+        cm_svc_test1 = confusion_matrix(ytest, y_pred_svc_test1)
+        print("Confusion matrix for training data: \n")
+        print(cm_svc_train1)
+        print("Confusion matrix for testing data:")
+        print(cm_svc_test1)
+
+        scores_dict = scores_svc_weighted
+
+        score_values_svc2={}
+        for key,array in scores_dict.items():
+            if(key=='test_accuracy'):
+                score_values_svc2['mean_accuracy'] = array.mean()
+                score_values_svc2['std_accuracy'] = array.std()
+            if(key=='test_f1_score'):
+                score_values_svc2['mean_f1'] = array.mean()
+                score_values_svc2['std_f1'] = array.std()
+            if(key=='test_precision'):
+                score_values_svc2['mean_precision'] = array.mean()
+                score_values_svc2['std_precision'] = array.std()
+            if(key=='test_recall'):
+                score_values_svc2['mean_recall'] = array.mean()
+                score_values_svc2['std_recall'] = array.std()
+
+        answer["scores"] = score_values_svc2
+        answer["cv"] = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        answer["clf"] = SVC(random_state=42)
+        answer["class_weights"] = class_weight_dict_outside
+        answer["confusion_matrix_train"] = confusion_matrix(ytrain, y_pred_svc_train1)
+        answer["confusion_matrix_test"] = confusion_matrix(ytest, y_pred_svc_test1)
+        answer["explain_purpose_of_class_weights"] = "Class weights are used to address class imbalance in classification problems"
+        answer["explain_performance_difference"] = "Using class weights in the SVM classifier results in improved overall accuracy, F1 score, and recall, indicating better performance, particularly in correctly identifying positive instances. However, there's a slight decrease in precision when using class weights. This trade-off suggests that while class weights help in better identifying minority class instances, there may be a slight increase in false positives."
+
+        print(answer)
         """
         Answer is a dictionary with the following keys: 
         - "scores" : a dictionary with the mean/std of the F1 score, precision, and recall
