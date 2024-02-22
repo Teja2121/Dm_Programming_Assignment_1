@@ -122,32 +122,4 @@ def filter_imbalanced_7_9s(X, y):
 
     return X_imbalanced, y_imbalanced
 
-"""
-def prepare_data_1(ntrain_list, ntest_list, normalize=True):
-    if isinstance(ntrain_list, int):
-        ntrain_list = [ntrain_list]
-    if isinstance(ntest_list, int):
-        ntest_list = [ntest_list]
-    results = {}
-    for ntrain, ntest in zip(ntrain_list, ntest_list):
-        X, y = load_mnist_dataset()
-        # Normalize data if required
-        if normalize:
-            X_normalized = X / X.max()
-        else:
-            X_normalized = X
 
-        # Convert labels to int32
-        y = y.astype(np.int32)
-
-        # Prepare subsets for current sizes
-        Xtrain = X_normalized[:ntrain, :]
-        ytrain = y[:ntrain]
-        Xtest = X_normalized[ntrain:ntrain+ntest, :]
-        ytest = y[ntrain:ntrain+ntest]
-
-        # Store in results dictionary
-        results[(ntrain, ntest)] = (Xtrain, ytrain, Xtest, ytest)
-    
-    return results
-"""
