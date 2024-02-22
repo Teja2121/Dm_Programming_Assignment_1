@@ -268,9 +268,8 @@ class Section1:
         # Noticing Difference: The mean tends to be the same while the standard deviation does tend to deviate.
         return answer
 
-
     # ----------------------------------------------------------------------
-        """
+    """
     F. Repeat part D with a Random-Forest classifier with default parameters. 
        Make sure the train test splits are the same for both models when performing 
        cross-validation. (Hint: use the same cross-validator instance for both models.)
@@ -329,6 +328,8 @@ class Section1:
         answer["model_highest_accuracy"] = 'Random Forest' if scoresrf1['test_score'].mean() > scores21['test_score'].mean() else 'Decision Trees'
         answer["model_lowest_variance"] = 'Decision Trees' if scores21['test_score'].std() < scoresrf1['test_score'].std()  else 'Random Forest'
         answer["model_fastest"] = 'Random Forest' if scoresrf1['fit_time'].mean() < scores21['fit_time'].mean() else 'Decision Trees'
+
+        print(answer)
 
         """
          Answer is a dictionary with the following keys: 
