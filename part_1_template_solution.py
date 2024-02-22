@@ -277,6 +277,43 @@ class Section1:
 
         # Enter your code, construct the `answer` dictionary, and return it.
 
+        print("Part 1(F)- \n" )
+        #X, y, Xtest, ytest = u.prepare_data()
+        Xtrain, ytrain = X, y
+        #Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
+        scoresrf1 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=RandomForestClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
+        scores_rf2 = u.print_cv_result_dict(scoresrf1)
+        print(scores_rf2)
+
+        scores21 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
+        score_values21={}
+        for key,array in scores21.items():
+            if(key=='fit_time'):
+                score_values21['mean_fit_time'] = array.mean()
+                score_values21['std_fit_time'] = array.std()
+            if(key=='test_score'):
+                score_values21['mean_accuracy'] = array.mean()
+                score_values21['std_accuracy'] = array.std()
+
+        score_valuesrf1={}
+        for key,array in scoresrf1.items():
+            if(key=='fit_time'):
+                score_valuesrf1['mean_fit_time'] = array.mean()
+                score_valuesrf1['std_fit_time'] = array.std()
+            if(key=='test_score'):
+                score_valuesrf1['mean_accuracy'] = array.mean()
+                score_valuesrf1['std_accuracy'] = array.std()
+
+        answer["clf_RF"] = RandomForestClassifier(random_state=42)
+        answer["clf_DT"] = DecisionTreeClassifier(random_state=42)
+        answer["scores_RF"] = score_values21
+        answer["scores_DT"] = score_valuesrf1
+        answer["model_highest_accuracy"] = 'Random Forest' if scoresrf1['test_score'].mean() > scores21['test_score'].mean() else 'Decision Trees'
+        answer["model_lowest_variance"] = 'Decision Trees' if scores21['test_score'].std() < scoresrf1['test_score'].std()  else 'Random Forest'
+        answer["model_fastest"] = 'Random Forest' if scoresrf1['fit_time'].mean() < scores21['fit_time'].mean() else 'Decision Trees'
+
+        print(answer)
+
         """
          Answer is a dictionary with the following keys: 
             "clf_RF",  # Random Forest class instance
