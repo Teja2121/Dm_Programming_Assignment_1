@@ -160,7 +160,7 @@ class Section3:
         return answer, Xtrain, ytrain, Xtest, ytest
 
     # --------------------------------------------------------------------------
-   """
+    """
     B. Repeat part 1.B but return an imbalanced dataset consisting of 90% of all 9s removed.  Also convert the 7s to 0s and 9s to 1s.
     """
 
@@ -213,6 +213,7 @@ class Section3:
         # Answer is a dictionary with the same keys as part 1.B
 
         return answer, X, y, Xtest, ytest
+
 
     # --------------------------------------------------------------------------
     """
@@ -322,7 +323,7 @@ class Section3:
         """
 
         return answer
-        
+
     # --------------------------------------------------------------------------
     """
     D. Repeat the same steps as part 3.C but apply a weighted loss function (see the class_weights parameter).  Print out the class weights, and comment on the performance difference. Use the `compute_class_weight` argument of the estimator to compute the class weights. 
@@ -365,8 +366,11 @@ class Section3:
         # Train SVC with cross-validation using weighted loss function
         clf_svc_weighted = SVC(random_state=42)
         scores_svc_weighted, class_weight_dict_outside = train_classifier_with_weighted_cv(Xtrain, ytrain, clf_svc_weighted)
+
+        
         print("The weights are: \n")
         print(class_weight_dict_outside)
+        
 
         # Train the classifier on all training data
         clf_svc_weighted.fit(Xtrain, ytrain)
@@ -381,8 +385,10 @@ class Section3:
         print("Confusion matrix for testing data:")
         print(cm_svc_test1)
 
+        scores_dict = scores_svc_weighted
+
         score_values_svc2={}
-        for key,array in scores_svc_weighted():
+        for key,array in scores_dict.items():
             if(key=='test_accuracy'):
                 score_values_svc2['mean_accuracy'] = array.mean()
                 score_values_svc2['std_accuracy'] = array.std()
@@ -405,7 +411,7 @@ class Section3:
         answer["explain_purpose_of_class_weights"] = "Class weights are used to address class imbalance in classification problems"
         answer["explain_performance_difference"] = "Using class weights in the SVM classifier results in improved overall accuracy, F1 score, and recall, indicating better performance, particularly in correctly identifying positive instances. However, there's a slight decrease in precision when using class weights. This trade-off suggests that while class weights help in better identifying minority class instances, there may be a slight increase in false positives."
 
-
+        print(answer)
         """
         Answer is a dictionary with the following keys: 
         - "scores" : a dictionary with the mean/std of the F1 score, precision, and recall
