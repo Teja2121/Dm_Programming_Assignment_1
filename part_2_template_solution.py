@@ -160,7 +160,7 @@ class Section2:
         answer = {}
         print("2(B) - \n")
 
-        #X, y, Xtest, ytest = u.prepare_data()
+        X, y, Xtest, ytest = u.prepare_data()
 
         for ntrain, ntest in zip(ntrain_list, ntest_list):
             x_r = X[0:ntrain, :]
