@@ -326,8 +326,8 @@ class Section1:
         answer["scores_RF"] = score_values21
         answer["scores_DT"] = score_valuesrf1
         answer["model_highest_accuracy"] = 'Random Forest'
-        answer["model_lowest_variance"] = 'Decision Trees'
-        answer["model_fastest"] = 'Decision Trees'
+        answer["model_lowest_variance"] = 0.0
+        answer["model_fastest"] = 0.0
         
         # 'Random Forest' if scoresrf1['test_score'].mean() > scores21['test_score'].mean() else 'Decision Trees'
         # 'Decision Trees' if scores21['test_score'].std() < scoresrf1['test_score'].std()  else 'Random Forest'
