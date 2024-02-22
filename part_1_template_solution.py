@@ -156,16 +156,30 @@ class Section1:
         y: NDArray[np.int32],
     ):
         # Enter your code and fill the `answer` dictionary
-
+        print("Part 1(D)- \n" )
+        #X, y, Xtest, ytest = u.prepare_data()
+        Xtrain, ytrain = X, y
+        #Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
+        scores2 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
+        scores_2 = u.print_cv_result_dict(scores2)
+        print(scores_2)
         # Answer: same structure as partC, except for the key 'explain_kfold_vs_shuffle_split'
-
         answer = {}
-        answer["clf"] = None
-        answer["cv"] = None
-        answer["scores"] = None
-        answer["explain_kfold_vs_shuffle_split"] = None
-        return answer
+        answer["clf"] = DecisionTreeClassifier(random_state=42)
+        answer["cv"] = ShuffleSplit(n_splits=5, random_state=42)
 
+        score_values2={}
+        for key,array in scores2.items():
+            if(key=='fit_time'):
+                score_values2['mean_fit_time'] = array.mean()
+                score_values2['std_fit_time'] = array.std()
+            if(key=='test_score'):
+                score_values2['mean_accuracy'] = array.mean()
+                score_values2['std_accuracy'] = array.std()
+
+        answer["scores"] = score_values2
+        answer["explain_kfold_vs_shuffle_split"] = 'Shuffle-Split randomly shuffles the data and splits it into train and test sets. But shuffle split might have higher variance comapred to k-fold. 𝑘-fold cross-validation provides a more reliable estimate of model performance by averaging over multiple iterations of training and testing on different subsets of the data. 𝑘-fold cross-validation can be computationally expensive, especially when 𝑘 is large'
+        return answer
     # ----------------------------------------------------------------------
     """
     E. Repeat part D for 𝑘=2,5,8,16, but do not print the training time. 
