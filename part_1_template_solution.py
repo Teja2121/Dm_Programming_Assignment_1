@@ -380,11 +380,90 @@ class Section1:
          5) max_features 
          5) n_estimators
         """
+        print("Part 1(G)- \n" )
+        #X, y, Xtest, ytest = u.prepare_data()
+        Xtrain, ytrain = X, y
+        Xtest, ytest = Xtest, ytest
 
+        param_grid = {'max_depth': [3, 5, 10], 'min_samples_split': [2, 5, 10], 'min_samples_leaf' : [1, 2, 3]}
+        # Initializing GridSearchCV
+        shuffle_split = ShuffleSplit(n_splits=5, random_state=42)
+        grid_search = GridSearchCV(RandomForestClassifier(random_state=42), param_grid, cv=shuffle_split, scoring='accuracy')
+        # Fit GridSearchCV
+        grid_search.fit(Xtrain, ytrain)
+        # mean accuracy
+        best_mean_accuracy_cv = grid_search.best_score_
+        print("Mean Accuracy Score from Cross-Validation: ", best_mean_accuracy_cv)
+        # Best Parameters
+        best_param = grid_search.best_params_
+        print("Best Parameters: ", best_param)
+        # Best Estimator model
+        best_clf = grid_search.best_estimator_
+        # best predictions based on best parameters x and y
+        best_train_pred = best_clf.predict(Xtrain)
+        best_test_pred = best_clf.predict(Xtest)
+        # Compute the confusion matrix
+        best_cm_x = confusion_matrix(ytrain, best_train_pred)
+        best_cm_y = confusion_matrix(ytest, best_test_pred)
+        print("Confusion Matrix for best parmeters training:\n", best_cm_x)
+        print("Confusion Matrix for best parmeters testing:\n", best_cm_y)
+        # calculate correct predictions
+        best_correct_predictions_x = np.diag(best_cm_x).sum()
+        best_correct_predictions_y = np.diag(best_cm_y).sum()
+        # All elements in the confusion matrix
+        best_total_predictions_x = best_cm_x.sum()
+        best_total_predictions_y = best_cm_x.sum()
+        # Compute accuracy
+        best_accuracy_x = best_correct_predictions_x / best_total_predictions_x
+        best_accuracy_y = best_correct_predictions_y / best_total_predictions_y
+        print("Accuracy for best parameters for training: ", best_accuracy_x)
+        print("Accuracy for best parameters for testing: ", best_accuracy_y)
+
+        #base random forest with shuffle split and number of splits as 5
+        
+        clf_base = RandomForestClassifier(random_state=42)
+        clf_base_scores = cross_validate(clf_base, Xtrain, ytrain, cv = shuffle_split)
+        #fitting base random forest
+        clf_base.fit(Xtrain, ytrain)
+        # base predictions based on base parameters x and y
+        base_train_pred = clf_base.predict(Xtrain)
+        base_test_pred = clf_base.predict(Xtest)
+        # Compute the confusion matrix for base parameters
+        base_cm_x = confusion_matrix(ytrain, base_train_pred)
+        base_cm_y = confusion_matrix(ytest, base_test_pred)
+        print("Confusion Matrix for base parmeters training:\n", base_cm_x)
+        print("Confusion Matrix for base parmeters testing:\n", base_cm_y)
+        # calculate correct predictions
+        base_correct_predictions_x = np.diag(base_cm_x).sum()
+        base_correct_predictions_y = np.diag(base_cm_y).sum()
+        # All elements in the confusion matrix
+        base_total_predictions_x = base_cm_x.sum()
+        base_total_predictions_y = base_cm_x.sum()
+        # Compute accuracy
+        base_accuracy_x = base_correct_predictions_x / base_total_predictions_x
+        base_accuracy_y = base_correct_predictions_y / base_total_predictions_y
+        print("Accuracy for base parameters for training: ", base_accuracy_x)
+        print("Accuracy for base parameters for testing: ", base_accuracy_y)
+        
+        default_params_rf = clf_base.get_params()
+       
         answer = {}
+        
 
         # Enter your code, construct the `answer` dictionary, and return it.
-
+        answer["clf"] = RandomForestClassifier(random_state=42)
+        answer["default_parameters"] = default_params_rf
+        answer["best_estimator"] = grid_search.best_estimator_
+        answer["grid_search"] = GridSearchCV(RandomForestClassifier(random_state=42), param_grid, cv=shuffle_split, scoring='accuracy')
+        answer["mean_accuracy_cv"] = best_mean_accuracy_cv
+        answer["confusion_matrix_train_orig"] = confusion_matrix(ytrain, base_train_pred)
+        answer["confusion_matrix_train_best"] = confusion_matrix(ytrain, best_train_pred)
+        answer["confusion_matrix_test_orig"] = confusion_matrix(ytest, base_test_pred)
+        answer["confusion_matrix_test_best"] = confusion_matrix(ytest, best_test_pred)
+        answer["accuracy_orig_full_training"] = base_accuracy_x
+        answer["accuracy_best_full_training"] = best_accuracy_x
+        answer["accuracy_orig_full_testing"] = base_accuracy_y
+        answer["accuracy_best_full_testing"] = best_accuracy_y
         """
            `answer`` is a dictionary with the following keys: 
             
