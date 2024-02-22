@@ -179,12 +179,7 @@ class Section2:
             std_fit_time_1d = np.std(scores2b1d['fit_time'])
             mean_accuracy_1d = np.mean(scores2b1d['test_score'])
             std_accuracy_1d = np.std(scores2b1d['test_score'])
-            """
-            mean_fit_time_1f = np.mean(scores2b1f['fit_time'])
-            std_fit_time_1f = np.std(scores2b1f['fit_time'])
-            mean_accuracy_1f = np.mean(scores2b1f['test_score'])
-            std_accuracy_1f = np.std(scores2b1f['test_score'])
-            """
+
 
             unique_classes, class_count_train = np.unique(y_r, return_counts=True)
             class_count_train_list = class_count_train.tolist()
