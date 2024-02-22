@@ -1,6 +1,21 @@
 import numpy as np
 from numpy.typing import NDArray
 from typing import Any
+import utils as u
+import new_utils as nu
+from sklearn.svm import SVC
+from sklearn.metrics import make_scorer, f1_score, precision_score, recall_score
+from sklearn.model_selection import StratifiedKFold, cross_val_predict
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import (
+    ShuffleSplit,
+    cross_validate,
+    KFold,
+)
+from sklearn.utils.class_weight import compute_class_weight
+from sklearn.metrics import top_k_accuracy_score
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
 
 """
    In the first two set of tasks, we will narrowly focus on accuracy - 
@@ -38,9 +53,13 @@ class Section3:
         print(f"{counts=}")
         print(f"{np.sum(counts)=}")
 
+        cc = {}
+        for i,j in enumerate(counts):
+            cc[uniq[i]] = j
+
         return {
-            "class_counts": {},  # Replace with actual class counts
-            "num_classes": 0,  # Replace with the actual number of classes
+            "class_counts": cc,  # Replace with actual class counts
+            "num_classes": len(uniq),  # Replace with the actual number of classes
         }
 
     # --------------------------------------------------------------------------
