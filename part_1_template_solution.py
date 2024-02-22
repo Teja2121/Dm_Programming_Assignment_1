@@ -124,11 +124,12 @@ class Section1:
         X: NDArray[np.floating],
         y: NDArray[np.int32],
     ):  
-        X, y, Xtest, ytest = u.prepare_data()
-        print(X)
-        print(y)
-        Xtrain, ytrain = u.filter_out_7_9s(X, y)
-        Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
+        #X, y, Xtest, ytest = u.prepare_data()
+        
+        Xtrain, ytrain = X,y
+        print(Xtrain)
+        print(ytrain)
+        #Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         # Enter your code and fill the `answer` dictionary
         scores1 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=KFold(n_splits=5, shuffle = True, random_state=42))
         scores_1 = u.print_cv_result_dict(scores1)
