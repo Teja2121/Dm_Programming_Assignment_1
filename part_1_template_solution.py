@@ -89,25 +89,19 @@ class Section1:
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
-        Xtrain_test = nu.scale_data(Xtrain)
-        Xtest_test = nu.scale_data(Xtest)
-        ytrain_test = nu.scale_data_1(ytrain)
-        ytest_test = nu.scale_data_1(ytest)
+        Xtrain = nu.scale_data(Xtrain)
+        Xtest = nu.scale_data(Xtest)
+
         answer = {}
 
         # Enter your code and fill the `answer` dictionary
-        length_Xtrain = len(Xtrain)
-        length_Xtest = len(Xtest)
-        length_ytrain = len(ytrain)
-        length_ytest = len(ytest)
-        max_Xtrain = Xtrain.max()
-        max_Xtest = Xtest.max()
-        answer["length_Xtrain"] = length_Xtrain  # Number of samples
-        answer["length_Xtest"] = length_Xtest
-        answer["length_ytrain"] = length_ytrain
-        answer["length_ytest"] = length_ytest
-        answer["max_Xtrain"] = max_Xtrain
-        answer["max_Xtest"] = max_Xtest
+
+        answer["length_Xtrain"] = None  # Number of samples
+        answer["length_Xtest"] = None
+        answer["length_ytrain"] = None
+        answer["length_ytest"] = None
+        answer["max_Xtrain"] = None
+        answer["max_Xtest"] = None
         return answer, Xtrain, ytrain, Xtest, ytest
 
     """
@@ -123,33 +117,15 @@ class Section1:
         self,
         X: NDArray[np.floating],
         y: NDArray[np.int32],
-    ):  
-        #X, y, Xtest, ytest = u.prepare_data()
-        
-        Xtrain, ytrain = X,y
-        print(Xtrain)
-        print(ytrain)
-        #Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
+    ):
         # Enter your code and fill the `answer` dictionary
-        scores1 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=KFold(n_splits=5, shuffle = True, random_state=42))
-        scores_1 = u.print_cv_result_dict(scores1)
+
         answer = {}
-        answer["clf"] = DecisionTreeClassifier(random_state=42)  # the estimator (classifier instance)
-        answer["cv"] = KFold(n_splits=5, shuffle=True, random_state=42)  # the cross validator instance
+        answer["clf"] = None  # the estimator (classifier instance)
+        answer["cv"] = None  # the cross validator instance
         # the dictionary with the scores  (a dictionary with
         # keys: 'mean_fit_time', 'std_fit_time', 'mean_accuracy', 'std_accuracy'.
-
-        score_values={}
-        for key,array in scores1.items():
-            if(key=='fit_time'):
-                score_values['mean_fit_time'] = array.mean()
-                score_values['std_fit_time'] = array.std()
-            if(key=='test_score'):
-                score_values['mean_accuracy'] = array.mean()
-                score_values['std_accuracy'] = array.std()
-
-
-        answer["scores"] = score_values
+        answer["scores"] = None
         return answer
 
     # ---------------------------------------------------------
@@ -319,9 +295,6 @@ class Section1:
             "accuracy_orig_full_testing"
             "accuracy_best_full_testing"
                
-        """
-
-        return answer
         """
 
         return answer
