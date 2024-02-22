@@ -69,7 +69,6 @@ class Section1:
     def partA(self):
         # Return 0 (ran ok) or -1 (did not run ok)
         answer = u.starter_code()
-        print("Part 1(A) - 0 means ran ok and -1 means did not run ok: " +str(answer))
         return answer
 
     # ----------------------------------------------------------------------
@@ -87,19 +86,13 @@ class Section1:
     def partB(
         self,
     ):
-        print("Part 1(B) - \n")
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         Xtrain_test = nu.scale_data(Xtrain)
         Xtest_test = nu.scale_data(Xtest)
-        # Checking that the labels are integers
         ytrain_test = nu.scale_data_1(ytrain)
         ytest_test = nu.scale_data_1(ytest)
-        print("1(B) - Are elements in Xtrain a floating point number and scaled between 0 to 1: " +str(Xtrain_test))
-        print("1(B) - Are elements in a floating point number and scaled between 0 to 1: " +str(Xtest_test))
-        print("1(B) - Are elements in ytrian an integer: " +str(ytrain_test))
-        print("1(B) - Are elements in ytest an integer: " +str(ytest_test))
         answer = {}
 
         # Enter your code and fill the `answer` dictionary
@@ -109,8 +102,6 @@ class Section1:
         length_ytest = len(ytest)
         max_Xtrain = Xtrain.max()
         max_Xtest = Xtest.max()
-        print(f"1(B) - Length of Xtrain, Xtest, ytrain, ytest is: {length_Xtrain}, {length_Xtest}, {length_ytrain}, {length_ytest}")
-        print(f"1(B) - Max value of Xtrain and Xtest is: {max_Xtrain}, {max_Xtest}")
         answer["length_Xtrain"] = length_Xtrain  # Number of samples
         answer["length_Xtest"] = length_Xtest
         answer["length_ytrain"] = length_ytrain
@@ -133,14 +124,12 @@ class Section1:
         X: NDArray[np.floating],
         y: NDArray[np.int32],
     ):  
-        print("Part 1(C)- \n" )
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         # Enter your code and fill the `answer` dictionary
         scores1 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=KFold(n_splits=5, shuffle = True, random_state=42))
         scores_1 = u.print_cv_result_dict(scores1)
-        print(scores_1)
         answer = {}
         answer["clf"] = DecisionTreeClassifier(random_state=42)  # the estimator (classifier instance)
         answer["cv"] = KFold(n_splits=5, shuffle=True, random_state=42)  # the cross validator instance
@@ -172,13 +161,11 @@ class Section1:
         y: NDArray[np.int32],
     ):
         # Enter your code and fill the `answer` dictionary
-        print("Part 1(D)- \n" )
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
         scores2 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
         scores_2 = u.print_cv_result_dict(scores2)
-        print(scores_2)
         # Answer: same structure as partC, except for the key 'explain_kfold_vs_shuffle_split'
         answer = {}
         answer["clf"] = DecisionTreeClassifier(random_state=42)
@@ -212,27 +199,21 @@ class Section1:
         # Answer: built on the structure of partC
         # `answer` is a dictionary with keys set to each split, in this case: 2, 5, 8, 16
         # Therefore, `answer[k]` is a dictionary with keys: 'scores', 'cv', 'clf`
-        print("Part 1(E)- \n" )
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
-        print("For K=2 - \n")
         scoresk2 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=2, random_state=42))
         scores_k2 = nu.print_cv_result_dict_test(scoresk2)
-        print(scores_k2)
+
         answer = {}
-        print("For K = 5 - \n")
         scoresk5 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=5, random_state=42))
         scores_k5 = nu.print_cv_result_dict_test(scoresk5)
-        print(scores_k5)
-        print("For K = 8 - \n")
+
         scoresk8 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=8, random_state=42))
         scores_k8 = nu.print_cv_result_dict_test(scoresk8)
-        print(scores_k8)
-        print("For K = 16 - \n")
+
         scoresk16 = u.train_simple_classifier_with_cv(Xtrain=Xtrain, ytrain=ytrain, clf=DecisionTreeClassifier(random_state=42), cv=ShuffleSplit(n_splits=16, random_state=42))
         scores_k16 = nu.print_cv_result_dict_test(scoresk16)
-        print(scores_k16)
         answer = {}
 
         score_valuesk2={}
@@ -294,7 +275,6 @@ class Section1:
 
         # Enter your code, construct the `answer` dictionary, and return it.
 
-        print("Part 1(F)- \n" )
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
@@ -333,8 +313,6 @@ class Section1:
         answer["model_lowest_variance"] = model_lowest_variance_1
         answer["model_fastest"] = model_fastest_1
         
-
-        print(answer)
 
         """
          Answer is a dictionary with the following keys: 
@@ -401,70 +379,54 @@ class Section1:
          5) max_features 
          5) n_estimators
         """
-        print("Part 1(G)- \n" )
         X, y, Xtest, ytest = u.prepare_data()
         Xtrain, ytrain = u.filter_out_7_9s(X, y)
         Xtest, ytest = u.filter_out_7_9s(Xtest, ytest)
 
         param_grid = {'max_depth': [3, 5, 10], 'min_samples_split': [2, 5, 10], 'min_samples_leaf' : [1, 2, 3]}
-        # Initializing GridSearchCV
         shuffle_split = ShuffleSplit(n_splits=5, random_state=42)
         grid_search = GridSearchCV(RandomForestClassifier(random_state=42), param_grid, cv=shuffle_split, scoring='accuracy')
-        # Fit GridSearchCV
         grid_search.fit(Xtrain, ytrain)
-        # mean accuracy
         best_mean_accuracy_cv = grid_search.best_score_
-        print("Mean Accuracy Score from Cross-Validation: ", best_mean_accuracy_cv)
-        # Best Parameters
         best_param = grid_search.best_params_
-        print("Best Parameters: ", best_param)
-        # Best Estimator model
         best_clf = grid_search.best_estimator_
-        # best predictions based on best parameters x and y
+
         best_train_pred = best_clf.predict(Xtrain)
         best_test_pred = best_clf.predict(Xtest)
-        # Compute the confusion matrix
+
         best_cm_x = confusion_matrix(ytrain, best_train_pred)
         best_cm_y = confusion_matrix(ytest, best_test_pred)
-        print("Confusion Matrix for best parmeters training:\n", best_cm_x)
-        print("Confusion Matrix for best parmeters testing:\n", best_cm_y)
-        # calculate correct predictions
+
         best_correct_predictions_x = np.diag(best_cm_x).sum()
         best_correct_predictions_y = np.diag(best_cm_y).sum()
-        # All elements in the confusion matrix
+
         best_total_predictions_x = best_cm_x.sum()
         best_total_predictions_y = best_cm_x.sum()
-        # Compute accuracy
+
         best_accuracy_x = best_correct_predictions_x / best_total_predictions_x
         best_accuracy_y = best_correct_predictions_y / best_total_predictions_y
-        print("Accuracy for best parameters for training: ", best_accuracy_x)
-        print("Accuracy for best parameters for testing: ", best_accuracy_y)
 
-        #base random forest with shuffle split and number of splits as 5
         
         clf_base = RandomForestClassifier(random_state=42)
         clf_base_scores = cross_validate(clf_base, Xtrain, ytrain, cv = shuffle_split)
-        #fitting base random forest
+
         clf_base.fit(Xtrain, ytrain)
-        # base predictions based on base parameters x and y
+
         base_train_pred = clf_base.predict(Xtrain)
         base_test_pred = clf_base.predict(Xtest)
-        # Compute the confusion matrix for base parameters
+
         base_cm_x = confusion_matrix(ytrain, base_train_pred)
         base_cm_y = confusion_matrix(ytest, base_test_pred)
-        print("Confusion Matrix for base parmeters training:\n", base_cm_x)
-        print("Confusion Matrix for base parmeters testing:\n", base_cm_y)
-        # calculate correct predictions
+
         base_correct_predictions_x = np.diag(base_cm_x).sum()
         base_correct_predictions_y = np.diag(base_cm_y).sum()
-        # All elements in the confusion matrix
+
         base_total_predictions_x = base_cm_x.sum()
         base_total_predictions_y = base_cm_x.sum()
-        # Compute accuracy
+
         base_accuracy_x = base_correct_predictions_x / base_total_predictions_x
         base_accuracy_y = base_correct_predictions_y / base_total_predictions_y
-        print("Accuracy for base parameters for training: ", base_accuracy_x)
-        print("Accuracy for base parameters for testing: ", base_accuracy_y)
+
         
         default_params_rf = clf_base.get_params()
        
