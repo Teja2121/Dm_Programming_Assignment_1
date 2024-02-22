@@ -320,18 +320,20 @@ class Section1:
             if(key=='test_score'):
                 score_valuesrf1['mean_accuracy'] = array.mean()
                 score_valuesrf1['std_accuracy'] = array.std()
+        
+        model_highest_accuracy_1 = 'Random Forest' if scoresrf1['test_score'].mean() > scores21['test_score'].mean() else 'Decision Trees'
+        model_lowest_variance_1 = 'Decision Trees' if scores21['test_score'].std() < scoresrf1['test_score'].std()  else 'Random Forest'
+        model_fastest_1 = 'Random Forest' if scoresrf1['fit_time'].mean() < scores21['fit_time'].mean() else 'Decision Trees'
 
         answer["clf_RF"] = RandomForestClassifier(random_state=42)
         answer["clf_DT"] = DecisionTreeClassifier(random_state=42)
         answer["scores_RF"] = score_values21
         answer["scores_DT"] = score_valuesrf1
-        answer["model_highest_accuracy"] = 'Random Forest'
-        answer["model_lowest_variance"] = 0.0
-        answer["model_fastest"] = 0.0
+        answer["model_highest_accuracy"] = model_highest_accuracy_1
+        answer["model_lowest_variance"] = model_lowest_variance_1
+        answer["model_fastest"] = model_fastest_1
         
-        # 'Random Forest' if scoresrf1['test_score'].mean() > scores21['test_score'].mean() else 'Decision Trees'
-        # 'Decision Trees' if scores21['test_score'].std() < scoresrf1['test_score'].std()  else 'Random Forest'
-        # 'Random Forest' if scoresrf1['fit_time'].mean() < scores21['fit_time'].mean() else 'Decision Trees'
+
         print(answer)
 
         """
