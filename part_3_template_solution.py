@@ -181,12 +181,13 @@ class Section3:
         # Enter your code and fill the `answer` dictionary
         answer = {}
         print("Part 3(B) - \n")
-        Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
+        #Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
+        X, y = nu.filter_imbalanced_7_9s(X, y)
         Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
-        Xtrain_test = nu.scale_data(Xtrain)
+        Xtrain_test = nu.scale_data(X)
         Xtest_test = nu.scale_data(Xtest)
         # Checking that the labels are integers
-        ytrain_test = nu.scale_data_1(ytrain)
+        ytrain_test = nu.scale_data_1(y)
         ytest_test = nu.scale_data_1(ytest)
         print("3(B) - Are elements in Xtrain a floating point number and scaled between 0 to 1: " +str(Xtrain_test))
         print("3(B) - Are elements in a floating point number and scaled between 0 to 1: " +str(Xtest_test))
@@ -194,11 +195,11 @@ class Section3:
         print("3(B) - Are elements in ytest an integer: " +str(ytest_test))
         answer = {}
 
-        length_Xtrain1 = len(Xtrain)
+        length_Xtrain1 = len(X)
         length_Xtest1 = len(Xtest)
-        length_ytrain1 = len(ytrain)
+        length_ytrain1 = len(y)
         length_ytest1 = len(ytest)
-        max_Xtrain1 = Xtrain.max()
+        max_Xtrain1 = X.max()
         max_Xtest1 = Xtest.max()
         print(f"3(B) - Length of Xtrain, Xtest, ytrain, ytest is: {length_Xtrain1}, {length_Xtest1}, {length_ytrain1}, {length_ytest1}")
         print(f"3(B) - Max value of Xtrain and Xtest is: {max_Xtrain1}, {max_Xtest1}")
@@ -236,8 +237,11 @@ class Section3:
         print("Part 3(C) - \n")
 
         #X, y, Xtest, ytest = u.prepare_data()
-        Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
-        Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
+        #Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
+        #Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
+
+        Xtrain, ytrain = X,y
+        Xtest, ytest = Xtest, ytest
 
         def stratified_kfold():
             return StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
@@ -341,8 +345,8 @@ class Section3:
         print("Part 3(D) - \n")
 
         #X, y, Xtest, ytest = u.prepare_data()
-        Xtrain, ytrain = nu.filter_imbalanced_7_9s(X, y)
-        Xtest, ytest = nu.filter_imbalanced_7_9s(Xtest, ytest)
+        Xtrain, ytrain = X, y
+        Xtest, ytest = Xtest, ytest
 
         def stratified_kfold():
             return StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
